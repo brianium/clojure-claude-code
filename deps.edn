@@ -1,0 +1,11 @@
+;; deps-new template library for Clojure + Claude Code projects
+;;
+;; Usage:
+;; clojure -Sdeps '{:deps {io.github.brianium/clojure-claude-code {:local/root "."}}}' \
+;;   -Tnew create :template brianium/clojure-claude-code :name myorg/myapp
+;;
+;; Or with git:
+;; clojure -Sdeps '{:deps {io.github.brianium/clojure-claude-code {:git/tag "v0.1.0" :git/sha "..."}}}' \
+;;   -Tnew create :template brianium/clojure-claude-code :name myorg/myapp
+
+{:paths ["resources"]}

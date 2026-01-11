@@ -1,0 +1,24 @@
+{:paths ["src/clj" "src/cljc" "src/cljs" "resources"]
+
+ :deps {org.clojure/clojure {:mvn/version "1.12.0"}
+        org.clojure/clojurescript {:mvn/version "1.12.116"}}
+
+ :aliases
+ {:dev
+  {:extra-paths ["dev/src/clj" "dev/resources"]
+   :extra-deps {djblue/portal {:mvn/version "0.62.2"}
+                io.github.tonsky/clj-reload {:mvn/version "1.0.0"}}
+   :jvm-opts ["-Djdk.attach.allowAttachSelf"]}
+
+  :fig
+  {:extra-deps {com.bhauman/rebel-readline-cljs {:mvn/version "0.1.5"}
+                com.bhauman/figwheel-main {:mvn/version "0.2.20"}}}
+
+  :cljs-build
+  {:main-opts ["-m" "figwheel.main" "-b" "dev" "-r"]}
+
+  :test
+  {:extra-paths ["test/src/clj" "test/resources"]
+   :extra-deps {io.github.cognitect-labs/test-runner {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
+   :main-opts ["-m" "cognitect.test-runner"]
+   :exec-fn cognitect.test-runner.api/test}}}

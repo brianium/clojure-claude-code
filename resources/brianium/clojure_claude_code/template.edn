@@ -1,0 +1,8 @@
+{:description "Clojure project template with Claude Code integration (clojure-mcp-light, clj-reload, Portal)"
+ :transform [["build" ""]
+             ["src/clj" "src/clj/{{top/file}}" {"core.clj" "{{main/file}}.clj"} :only]
+             ["dev" "dev"]
+             ["test/src/clj" "test/src/clj/{{top/file}}" {"core_test.clj" "{{main/file}}_test.clj"} :only]
+             ["test/resources" "test/resources"]
+             ["resources" "resources"]
+             [".claude" ".claude"]]}

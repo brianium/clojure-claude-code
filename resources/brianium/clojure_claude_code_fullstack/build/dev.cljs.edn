@@ -1,0 +1,5 @@
+^{:css-dirs   ["resources/public/css"]
+  :watch-dirs ["src/cljs" "src/cljc"]
+  :open-url   "http://localhost:9500"}
+{:main <<top/ns>>.frontend
+ :output-dir "resources/public/js"}

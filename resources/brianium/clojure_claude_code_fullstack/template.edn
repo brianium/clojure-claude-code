@@ -1,0 +1,10 @@
+{:description "Full-stack Clojure/ClojureScript template with Claude Code, Figwheel-main, clj-reload, and Portal"
+ :transform [["build" "" ["<<" ">>"]]
+             ["src/clj" "src/clj/{{top/file}}" {"core.clj" "{{main/file}}.clj"} :only]
+             ["src/cljc" "src/cljc/{{top/file}}" {"shared.cljc" "shared.cljc"} :only]
+             ["src/cljs" "src/cljs/{{top/file}}" {"frontend.cljs" "frontend.cljs"} :only]
+             ["dev" "dev"]
+             ["test/src/clj" "test/src/clj/{{top/file}}" {"core_test.clj" "{{main/file}}_test.clj"} :only]
+             ["test/resources" "test/resources"]
+             ["resources" "resources"]
+             [".claude" ".claude"]]}

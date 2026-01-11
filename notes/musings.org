@@ -1,0 +1,31 @@
+#+title: Musings On A Clojure Template For Claude Code
+
+* Clojure Claude Code Template
+
+** Goal
+
+The goal of this project is to create a re-usable starting point for beginning Clojure projects centered around CLI based LLM coding assistants. Specifically for Claude Code.
+
+*** Requirements
+- Easily begin a new project using https://github.com/seancorfield/deps-new
+- Support easily beginning a new project with a common structure, but the project easily supports starting with a new namespace (i.e change the "template" root to something project specific
+- Claude Code is configured for a Clojure codebase. See `notes/README.sample.md` for a sample README from another project that already configures
+  https://github.com/bhauman/clojure-mcp-light
+- the `.claude/settings.json` should be project scoped
+- clojure-mcp-light should favor the skills approach. The skill for repl eval can be found at https://github.com/bhauman/clojure-mcp-light/tree/main/skills/clojure-eval
+- The template README should include instructions for installing dependencies (just like in the already mentioned sample README)
+- The final product should have a starting CLAUDE.md for projects built upon the template
+
+*** Initial Structure
+
+The initial structure is already scaffolded in this project - i.e:
+- deps.edn
+- src/clj/template/core.clj
+- src/cljc/template/shared.cljc
+- src/cljs/tempalte/frontend.cljs
+- resources/.gitkeep
+- dev/src/clj/dev.clj
+- dev/src/clj/user.clj
+- dev/resources/.gitkeep
+- test/src/clj/template/core_test.clj
+- test/resources

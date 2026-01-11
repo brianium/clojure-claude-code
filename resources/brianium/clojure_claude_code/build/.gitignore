@@ -1,0 +1,36 @@
+# Clojure/Java
+target/
+classes/
+*.jar
+*.class
+pom.xml
+pom.xml.asc
+
+# Clojure tools
+.cpcache/
+.nrepl-port
+.lsp/
+.clj-kondo/.cache/
+
+# ClojureScript (if added later)
+.shadow-cljs/
+node_modules/
+out/
+resources/public/js/
+
+# Editors
+*.swp
+*.swo
+*~
+.idea/
+*.iml
+.vscode/
+.calva/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project-specific
+.env
+.env.local

@@ -1,0 +1,253 @@
+#+title: Implementation Plan for Clojure Claude Code Template
+
+* Overview
+
+This project creates two deps-new templates for quickly scaffolding Clojure projects configured for Claude Code:
+
+1. *clojure-claude-code* - Base CLJ-only template
+2. *clojure-claude-code-fullstack* - Full-stack template with ClojureScript + Figwheel-main
+
+Both templates include clojure-mcp-light integration for REPL evaluation and automatic paren repair.
+
+* Template Structure
+
+** Repository Layout
+
+#+begin_src
+resources/io/github/brianium/
+├── clojure_claude_code/           # Base CLJ template
+│   ├── template.edn
+│   └── root/
+│       ├── .claude/
+│       │   ├── settings.json      # Paren repair hooks
+│       │   └── skills/
+│       │       └── clojure-eval/
+│       │           ├── SKILL.md
+│       │           └── examples.md
+│       ├── CLAUDE.md              # Project guidance for Claude
+│       ├── README.md              # Installation/usage instructions
+│       ├── deps.edn
+│       ├── .dir-locals.el         # Emacs CIDER config
+│       ├── .gitignore
+│       ├── resources/.gitkeep
+│       ├── src/clj/{{top/file}}/{{main/file}}.clj
+│       ├── dev/
+│       │   ├── src/clj/
+│       │   │   ├── user.clj
+│       │   │   └── dev.clj
+│       │   └── resources/.gitkeep
+│       └── test/
+│           ├── src/clj/{{top/file}}/{{main/file}}_test.clj
+│           └── resources/.gitkeep
+│
+└── clojure_claude_code_fullstack/ # Full-stack template
+    ├── template.edn
+    └── root/
+        ├── (everything from base template, plus:)
+        ├── dev.cljs.edn           # Figwheel build config
+        ├── src/cljc/{{top/file}}/shared.cljc
+        └── src/cljs/{{top/file}}/frontend.cljs
+#+end_src
+
+** Usage
+
+Base template:
+#+begin_src bash
+clojure -Sdeps '{:deps {io.github.brianium/clojure-claude-code {:git/tag "v0.1.0" :git/sha "..."}}}' \
+  -Tnew create :template brianium/clojure-claude-code :name myorg/myproject
+#+end_src
+
+Fullstack template:
+#+begin_src bash
+clojure -Sdeps '{:deps {io.github.brianium/clojure-claude-code {:git/tag "v0.1.0" :git/sha "..."}}}' \
+  -Tnew create :template brianium/clojure-claude-code-fullstack :name myorg/myproject
+#+end_src
+
+* Implementation Tasks
+
+** Phase 1: Base Template (clojure-claude-code)
+
+*** DONE Research deps-new template structure
+- template.edn format understood
+- Placeholders: {{top/file}}, {{main/file}}, {{top/ns}}, {{main}}, {{name}}, etc.
+- Transform rules for file/directory mapping
+
+*** TODO Create template.edn
+- Description
+- Transform rules for src, dev, test directories
+- Map template files to {{top/file}}/{{main/file}} structure
+
+*** TODO Create .claude/settings.json
+Hooks configuration for clojure-mcp-light paren repair:
+- PreToolUse: Write|Edit -> clj-paren-repair-claude-hook --cljfmt
+- PostToolUse: Edit|Write -> clj-paren-repair-claude-hook --cljfmt
+- SessionEnd -> clj-paren-repair-claude-hook --cljfmt
+
+*** TODO Create .claude/skills/clojure-eval/
+Bundle the clojure-eval skill from clojure-mcp-light:
+- SKILL.md: Core workflow for REPL evaluation
+- examples.md: Usage patterns and examples
+
+*** TODO Create CLAUDE.md
+Project guidance for Claude, covering:
+- This is a Clojure project using deps.edn
+- clj-reload for namespace reloading
+- clojure-mcp-light for REPL evaluation
+- Development workflow (user.clj -> dev namespace)
+- Testing with cognitect test-runner
+
+*** TODO Create README.md
+Installation instructions:
+- Prerequisites (Babashka, bbin, parinfer-rust)
+- Installing clojure-mcp-light tools
+- Starting the REPL
+- Development workflow
+
+*** TODO Templatize deps.edn
+- Paths: src/clj, resources
+- Aliases: :dev (clj-reload, portal), :test (cognitect test-runner)
+- Use {{top/ns}} where appropriate
+
+*** TODO Templatize source files
+- src/clj/{{top/file}}/{{main/file}}.clj with (ns {{top/ns}}.{{main}})
+- dev/src/clj/user.clj
+- dev/src/clj/dev.clj
+- test/src/clj/{{top/file}}/{{main/file}}_test.clj
+
+*** TODO Create .dir-locals.el
+Emacs configuration:
+#+begin_src elisp
+((clojure-mode
+  (cider-clojure-cli-aliases . ":dev")))
+#+end_src
+
+*** TODO Create .gitignore
+Standard Clojure ignores:
+- target/, .cpcache/, .nrepl-port
+- Editor files, OS files
+- .lsp/, .clj-kondo/ caches
+
+** Phase 2: Fullstack Template (clojure-claude-code-fullstack)
+
+*** TODO Create fullstack template.edn
+- Same as base, plus transforms for cljs/cljc directories
+
+*** TODO Extend deps.edn for ClojureScript
+Additional deps:
+- org.clojure/clojurescript
+- com.bhauman/figwheel-main
+- com.bhauman/rebel-readline-cljs
+
+Additional aliases:
+- :fig (figwheel deps)
+- :cljs-build (figwheel main opts)
+
+*** TODO Create dev.cljs.edn
+Figwheel build configuration:
+#+begin_src clojure
+^{:css-dirs   ["resources/public/css"]
+  :watch-dirs ["src/cljs" "src/cljc"]
+  :open-url   "http://localhost:9500"}
+{:main {{top/ns}}.frontend
+ :output-dir "resources/public/js"}
+#+end_src
+
+*** TODO Create shared.cljc and frontend.cljs
+- src/cljc/{{top/file}}/shared.cljc
+- src/cljs/{{top/file}}/frontend.cljs
+
+*** TODO Update .dir-locals.el for fullstack
+#+begin_src elisp
+((clojure-mode
+  (cider-clojure-cli-aliases . ":dev"))
+ (clojurescript-mode
+  (cider-clojure-cli-aliases . ":dev:fig:cljs-build")))
+#+end_src
+
+** Phase 3: Testing & Documentation
+
+*** TODO Test base template generation
+#+begin_src bash
+clojure -Sdeps '{:deps {io.github.brianium/clojure-claude-code {:local/root "."}}}' \
+  -Tnew create :template brianium/clojure-claude-code :name test/myapp :target-dir /tmp/test-clj
+#+end_src
+
+*** TODO Test fullstack template generation
+#+begin_src bash
+clojure -Sdeps '{:deps {io.github.brianium/clojure-claude-code {:local/root "."}}}' \
+  -Tnew create :template brianium/clojure-claude-code-fullstack :name test/myapp :target-dir /tmp/test-fullstack
+#+end_src
+
+*** TODO Verify generated projects work
+- REPL starts
+- clj-reload works
+- Tests run
+- (Fullstack) Figwheel compiles
+
+*** TODO Update project README
+Document both templates and how to use them
+
+* Key Files Content
+
+** .claude/settings.json
+
+#+begin_src json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "clj-paren-repair-claude-hook --cljfmt"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "clj-paren-repair-claude-hook --cljfmt"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "clj-paren-repair-claude-hook --cljfmt"
+          }
+        ]
+      }
+    ]
+  }
+}
+#+end_src
+
+** Dev namespace structure
+
+user.clj:
+- Initializes clj-reload
+- Provides (dev) function to switch to dev namespace
+
+dev.clj:
+- Portal integration via defonce (reload-safe, opens once per JVM session):
+  #+begin_src clojure
+  (defonce portal (p/open))
+  (defonce _setup-tap (add-tap #'p/submit))
+  #+end_src
+- start/stop/restart lifecycle functions
+- reload function wrapping clj-reload/reload
+- before-ns-unload / after-ns-reload hooks
+
+* Design Decisions
+
+1. *Portal*: Include reload-safe Portal configuration in dev.clj using defonce. Opens once per JVM session, tap persists through reloads.
+2. *Skills*: Bundle only clojure-eval for now. Can add more later.
+3. *Fullstack HTML*: Not needed - Figwheel provides a stub if none exists.
