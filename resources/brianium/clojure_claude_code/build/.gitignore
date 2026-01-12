@@ -10,7 +10,10 @@ pom.xml.asc
 .cpcache/
 .nrepl-port
 .lsp/
+# Ignore root .clj-kondo cache (config.edn can still be tracked)
 .clj-kondo/.cache/
+# Ignore .clj-kondo directories created in subdirectories
+*/**/.clj-kondo/
 
 # ClojureScript (if added later)
 .shadow-cljs/

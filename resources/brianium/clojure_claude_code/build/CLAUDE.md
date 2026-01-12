@@ -99,3 +99,20 @@ This ensures dependencies are immediately available without restarting the REPL.
 - Use `cljfmt` formatting (applied automatically via hooks)
 - Prefer pure functions where possible
 - Use `tap>` for debugging output (appears in Portal)
+
+## Git Commits
+
+Use conventional commits format:
+
+```
+<type>: <description>
+
+[optional body]
+```
+
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+
+Examples:
+- `feat: add user authentication`
+- `fix: resolve nil pointer in data parser`
+- `refactor: simplify database connection logic`

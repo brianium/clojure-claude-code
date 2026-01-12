@@ -115,3 +115,20 @@ This ensures dependencies are immediately available without restarting the REPL.
 - Prefer pure functions where possible
 - Put shared code in `src/cljc/` for use in both CLJ and CLJS
 - Use `tap>` for debugging output (appears in Portal)
+
+## Git Commits
+
+Use conventional commits format:
+
+```
+<type>: <description>
+
+[optional body]
+```
+
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+
+Examples:
+- `feat: add user authentication`
+- `fix: resolve nil pointer in data parser`
+- `refactor: simplify database connection logic`
