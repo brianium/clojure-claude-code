@@ -77,6 +77,22 @@ Or from the REPL:
 (run-tests '{{top/ns}}.{{main}}-test)
 ```
 
+## Adding Dependencies
+
+When adding new dependencies in a REPL-connected environment:
+
+1. **Add to the running REPL first** using `clojure.repl.deps/add-lib`:
+   ```clojure
+   (clojure.repl.deps/add-lib 'metosin/malli {:mvn/version "0.16.4"})
+   ```
+   Note: The library name must be quoted.
+
+2. **Confirm the dependency works** by requiring and testing it in the REPL.
+
+3. **Only then add to deps.edn** once confirmed working.
+
+This ensures dependencies are immediately available without restarting the REPL.
+
 ## Code Style
 
 - Follow standard Clojure conventions
