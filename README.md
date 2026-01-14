@@ -137,9 +137,14 @@ Once in a project, Claude Code can evaluate Clojure via the bundled skill:
 # Discover running REPLs
 clj-nrepl-eval --discover-ports
 
+# Switch to dev namespace (all evaluation should happen here)
+clj-nrepl-eval -p <PORT> "(in-ns 'dev)"
+
+# Reload changed namespaces
+clj-nrepl-eval -p <PORT> "(reload)"
+
 # Evaluate code
-clj-nrepl-eval -p <PORT> "(require '[myorg.myapp] :reload)"
-clj-nrepl-eval -p <PORT> "(myorg.myapp/some-function)"
+clj-nrepl-eval -p <PORT> "(myapp/some-function)"
 ```
 
 The `.claude/settings.json` hooks automatically repair parens/indentation when Claude edits Clojure files.
