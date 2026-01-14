@@ -72,10 +72,16 @@ clj-nrepl-eval --discover-ports          # Find running REPLs
 clj-nrepl-eval -p <PORT> "(+ 1 2 3)"     # Evaluate expression
 ```
 
-Always use `:reload` when requiring namespaces to pick up changes:
+**Important:** All REPL evaluation should take place in the `dev` namespace. After connecting, switch to the dev namespace:
 
 ```bash
-clj-nrepl-eval -p <PORT> "(require '[<<top/ns>>.<<main>>] :reload)"
+clj-nrepl-eval -p <PORT> "(in-ns 'dev)"
+```
+
+To reload code after making changes, use clj-reload:
+
+```bash
+clj-nrepl-eval -p <PORT> "(reload)"
 ```
 
 ## Running Tests
@@ -84,11 +90,11 @@ clj-nrepl-eval -p <PORT> "(require '[<<top/ns>>.<<main>>] :reload)"
 clj -X:test
 ```
 
-Or from the REPL:
+Or from the REPL (in the dev namespace):
 
 ```clojure
+(reload)  ; Reload changed namespaces first
 (require '[clojure.test :refer [run-tests]])
-(require '[<<top/ns>>.<<main>>-test] :reload)
 (run-tests '<<top/ns>>.<<main>>-test)
 ```
 
