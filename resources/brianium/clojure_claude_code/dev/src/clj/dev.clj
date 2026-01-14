@@ -1,7 +1,8 @@
 (ns dev
   (:require [clojure.pprint :refer [pprint]]
             [clj-reload.core :as reload]
-            [portal.api :as p]))
+            [portal.api :as p]
+            [{{top/ns}}.{{main}} :as {{main}}]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Portal Setup (reload-safe)
