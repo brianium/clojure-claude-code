@@ -12,6 +12,8 @@ pom.xml.asc
 .lsp/
 # Ignore root .clj-kondo cache (config.edn can still be tracked)
 .clj-kondo/.cache/
+# Ignore clj-kondo imports from linting dependencies
+.clj-kondo/imports/
 # Ignore .clj-kondo directories created in subdirectories
 */**/.clj-kondo/
 
@@ -33,6 +35,9 @@ resources/public/js/
 # OS
 .DS_Store
 Thumbs.db
+
+# Claude Code
+.claude/settings.local.json
 
 # Project-specific
 .env
