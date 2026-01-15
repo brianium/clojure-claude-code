@@ -151,6 +151,6 @@ The `.claude/settings.json` hooks automatically repair parens/indentation when C
 
 ## License
 
-Copyright © 2024
+Copyright © 2026
 
 Distributed under the Eclipse Public License version 1.0.
