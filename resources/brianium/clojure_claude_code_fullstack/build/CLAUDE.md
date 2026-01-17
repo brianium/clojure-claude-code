@@ -65,23 +65,35 @@ resources/public/ # Static assets served by Figwheel
 
 ## REPL Evaluation
 
-Use the clojure-eval skill to evaluate code via nREPL:
+Use the clojure-eval skill to evaluate code via nREPL.
+
+### Starting an nREPL Server
+
+To start a REPL with nREPL support (required for clojure-eval):
+
+```bash
+clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.3.0"}}}' -M:dev -m nrepl.cmdline --port 7888
+```
+
+This starts an nREPL server on port 7888 with all dev dependencies loaded.
+
+### Connecting and Evaluating
 
 ```bash
 clj-nrepl-eval --discover-ports          # Find running REPLs
-clj-nrepl-eval -p <PORT> "(+ 1 2 3)"     # Evaluate expression
+clj-nrepl-eval -p 7888 "(+ 1 2 3)"       # Evaluate expression
 ```
 
 **Important:** All REPL evaluation should take place in the `dev` namespace. After connecting, switch to the dev namespace:
 
 ```bash
-clj-nrepl-eval -p <PORT> "(in-ns 'dev)"
+clj-nrepl-eval -p 7888 "(dev)"
 ```
 
 To reload code after making changes, use clj-reload:
 
 ```bash
-clj-nrepl-eval -p <PORT> "(reload)"
+clj-nrepl-eval -p 7888 "(reload)"
 ```
 
 ## Running Tests
