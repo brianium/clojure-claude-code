@@ -62,11 +62,11 @@ bbin install https://github.com/bhauman/clojure-mcp-light.git --tag v0.2.1 \
 
 ```bash
 # Base Clojure project
-clojure -Sdeps '{:deps {io.github.brianium/clojure-claude-code {:git/tag "v0.1.4" :git/sha "d9e9550"}}}' \
+clojure -Sdeps '{:deps {io.github.brianium/clojure-claude-code {:git/tag "v0.1.5" :git/sha "ecccdd7"}}}' \
   -Tnew create :template brianium/clojure-claude-code :name myorg/myapp
 
 # Full-stack Clojure + ClojureScript project
-clojure -Sdeps '{:deps {io.github.brianium/clojure-claude-code {:git/tag "v0.1.4" :git/sha "d9e9550"}}}' \
+clojure -Sdeps '{:deps {io.github.brianium/clojure-claude-code {:git/tag "v0.1.5" :git/sha "ecccdd7"}}}' \
   -Tnew create :template brianium/clojure-claude-code-fullstack :name myorg/myapp
 ```
 
