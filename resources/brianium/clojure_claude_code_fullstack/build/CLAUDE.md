@@ -134,6 +134,33 @@ This ensures dependencies are immediately available without restarting the REPL.
 - Put shared code in `src/cljc/` for use in both CLJ and CLJS
 - Use `tap>` for debugging output (appears in Portal)
 
+### Namespaced Keywords
+
+Clojure has two syntaxes for namespaced keywords:
+
+**Single colon (`:`)** - Explicit namespace, works anywhere:
+```clojure
+:my.app.config/timeout    ; Fully qualified namespace
+:ui/visible               ; Arbitrary namespace (doesn't need to exist)
+:db/id                    ; Common convention for domain markers
+```
+
+**Double colon (`::`)** - Auto-resolved namespace:
+```clojure
+;; In namespace my.app.core:
+::key                     ; Expands to :my.app.core/key
+
+;; With required aliases:
+(require '[my.app.db :as db])
+::db/query                ; Expands to :my.app.db/query
+```
+
+**When to use which:**
+- Use `:` with explicit namespace when the keyword meaning is independent of the current file
+- Use `::` when the keyword is specific to the current namespace
+- Use `::alias/key` to reference keywords from required namespaces without typing the full name
+- Prefer `:` for spec keys, component IDs, and data that crosses namespace boundaries
+
 ## Git Commits
 
 Use conventional commits format:
