@@ -69,31 +69,22 @@ Use the clojure-eval skill to evaluate code via nREPL.
 
 ### Starting an nREPL Server
 
-To start a REPL with nREPL support (required for clojure-eval):
-
 ```bash
-clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.3.0"}}}' -M:dev -m nrepl.cmdline --port 7888
+clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.3.0"}}}' -M:dev -m nrepl.cmdline --port <PORT>
 ```
-
-This starts an nREPL server on port 7888 with all dev dependencies loaded.
 
 ### Connecting and Evaluating
 
 ```bash
 clj-nrepl-eval --discover-ports          # Find running REPLs
-clj-nrepl-eval -p 7888 "(+ 1 2 3)"       # Evaluate expression
+clj-nrepl-eval -p <PORT> "(+ 1 2 3)"       # Evaluate expression
 ```
 
-**Important:** All REPL evaluation should take place in the `dev` namespace. After connecting, switch to the dev namespace:
+**Important:** All REPL evaluation should take place in the `dev` namespace:
 
 ```bash
-clj-nrepl-eval -p 7888 "(dev)"
-```
-
-To reload code after making changes, use clj-reload:
-
-```bash
-clj-nrepl-eval -p 7888 "(reload)"
+clj-nrepl-eval -p <PORT> "(dev)"
+clj-nrepl-eval -p <PORT> "(reload)"
 ```
 
 ## Running Tests
@@ -133,6 +124,21 @@ This ensures dependencies are immediately available without restarting the REPL.
 - Prefer pure functions where possible
 - Put shared code in `src/cljc/` for use in both CLJ and CLJS
 - Use `tap>` for debugging output (appears in Portal)
+
+### Namespace Aliases Over Fully Qualified Names
+
+Always require namespaces with aliases. Never use fully qualified function calls inline.
+
+```clojure
+;; WRONG - fully qualified
+(clojure.string/join ", " items)
+
+;; RIGHT - require with alias
+(ns <<top/ns>>.<<main>>
+  (:require [clojure.string :as str]))
+
+(str/join ", " items)
+```
 
 ### Namespaced Keywords
 
